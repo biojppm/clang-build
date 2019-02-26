@@ -20,28 +20,26 @@ Compile clang 7.0.1 (the default):
 
 ```bash
 # using cmany:
-cmany b   # That's it!
-          # llvm and clang 7.0.1 will be downloaded and compiled
+cmany b
 
 # ... or equivalently using CMake:
 mkdir build
-cmake -H . -B build \
-    -D CMAKE_BUILD_TYPE=Release
+cmake -H . -B build -D CMAKE_BUILD_TYPE=Release
 cmake --build build
+
 ```
 
-If you have a different version in mind, say 6.0.1:
+That's it! llvm and clang 7.0.1 are automatically downloaded and compiled.
+If you have a different version in mind, say 6.0.1, use the CMake project
+variable `CLANG_VERSION`:
 
 ```bash
 # using cmany:
-cmany b   # That's it!
-          # llvm and clang 7.0.1 will be downloaded and compiled
+cmany b -V CLANG_VERSION=6.0.1
 
 # ... or equivalently using CMake:
 mkdir build
-cmake -H . -B build \
-    -D CMAKE_BUILD_TYPE=Release \
-    -D CLANG_VERSION=7.0.1   # compile clang 7.0.1
+cmake -H . -B build -D CMAKE_BUILD_TYPE=Release -D CLANG_VERSION=7.0.1
 cmake --build build
 ```
 
