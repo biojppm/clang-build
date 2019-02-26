@@ -16,7 +16,7 @@ ExternalProject_GetFwdArgs(CMK_ARGS EXCLUDE CMAKE_INSTALL_PREFIX)
 #------------------------------------------------------------------------------
 
 if(NOT CLANG_VERSION)
-    set(CLANG_VERSION 3.9.1)
+    set(CLANG_VERSION 7.0.1)
 endif()
 
 foreach(ver ${CLANG_VERSION})
