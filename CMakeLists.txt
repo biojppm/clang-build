@@ -4,6 +4,10 @@ project(clang-build)
 
 option(CLANGBUILD_USE_IWYU "" ON)
 
+if(NOT CLANG_VERSION)
+    set(CLANG_VERSION 7.0.1)
+endif()
+
 set(IDIR ${CMAKE_INSTALL_PREFIX}) # install dir
 set(SDIR ${CMAKE_SOURCE_DIR}/src) # source dir
 set(PDIR ${CMAKE_SOURCE_DIR}/src/pack) # packs dir
@@ -15,16 +19,11 @@ ExternalProject_GetFwdArgs(CMK_ARGS EXCLUDE CMAKE_INSTALL_PREFIX)
 
 #------------------------------------------------------------------------------
 
-if(NOT CLANG_VERSION)
-    set(CLANG_VERSION 7.0.1)
-endif()
-
 foreach(ver ${CLANG_VERSION})
     if(NOT EXISTS ${SDIR}/llvm-${ver})
         download_file(http://releases.llvm.org/${ver}/llvm-${ver}.src.tar.xz ${PDIR})
         download_file(http://releases.llvm.org/${ver}/cfe-${ver}.src.tar.xz ${PDIR})
         download_file(http://releases.llvm.org/${ver}/clang-tools-extra-${ver}.src.tar.xz ${PDIR})
-
         unpack_to(${PDIR}/llvm-${ver}.src.tar.xz ${SDIR}/llvm-${ver})
         unpack_to(${PDIR}/cfe-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang)
         unpack_to(${PDIR}/clang-tools-extra-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang/tools/extra)
