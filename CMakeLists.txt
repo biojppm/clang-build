@@ -53,7 +53,7 @@ foreach(ver ${CLANG_VERSION})
         SOURCE_DIR ${SDIR}/llvm-${ver}
         BINARY_DIR ${BDIR}/llvm-${ver}
         #INSTALL_DIR ${IDIR}/llvm-${ver}
-        CMAKE_ARGS "${CMK_ARGS};-DCMAKE_INSTALL_PREFIX=${IDIR}/llvm-${ver}"
+        CMAKE_ARGS "${CMK_ARGS};-DCMAKE_INSTALL_PREFIX=${IDIR}"
         )
 endforeach()
 
