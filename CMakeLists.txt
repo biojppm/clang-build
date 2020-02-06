@@ -5,8 +5,10 @@ project(clang-build)
 option(CLANGBUILD_USE_IWYU "" ON)
 
 if(NOT CLANG_VERSION)
-    set(CLANG_VERSION 7.0.1)
+    set(CLANG_VERSION 7.1.0)
+    message(STATUS "picking default clang version: ${CLANG_VERSION}")
 endif()
+message(STATUS "building clang version ${CLANG_VERSION}")
 
 set(IDIR ${CMAKE_INSTALL_PREFIX}) # install dir
 set(SDIR ${CMAKE_SOURCE_DIR}/src) # source dir
