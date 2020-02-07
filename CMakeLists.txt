@@ -22,13 +22,22 @@ ExternalProject_GetFwdArgs(CMK_ARGS EXCLUDE CMAKE_INSTALL_PREFIX)
 #------------------------------------------------------------------------------
 
 foreach(ver ${CLANG_VERSION})
-    if(NOT EXISTS ${SDIR}/llvm-${ver})
-        download_file(http://releases.llvm.org/${ver}/llvm-${ver}.src.tar.xz ${PDIR})
-        download_file(http://releases.llvm.org/${ver}/cfe-${ver}.src.tar.xz ${PDIR})
-        download_file(http://releases.llvm.org/${ver}/clang-tools-extra-${ver}.src.tar.xz ${PDIR})
-        unpack_to(${PDIR}/llvm-${ver}.src.tar.xz ${SDIR}/llvm-${ver})
-        unpack_to(${PDIR}/cfe-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang)
-        unpack_to(${PDIR}/clang-tools-extra-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang/tools/extra)
+    if(ON OR NOT EXISTS ${SDIR}/llvm-${ver})
+        if("${ver}" VERSION_LESS_EQUAL "7.1.0")
+            download_file(https://releases.llvm.org/${ver}/llvm-${ver}.src.tar.xz ${PDIR})
+            download_file(https://releases.llvm.org/${ver}/cfe-${ver}.src.tar.xz ${PDIR})
+            download_file(https://releases.llvm.org/${ver}/clang-tools-extra-${ver}.src.tar.xz ${PDIR})
+            unpack_to(${PDIR}/llvm-${ver}.src.tar.xz ${SDIR}/llvm-${ver})
+            unpack_to(${PDIR}/cfe-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang)
+            unpack_to(${PDIR}/clang-tools-extra-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang/tools/extra)
+        else()
+            download_file(https://github.com/llvm/llvm-project/releases/download/llvmorg-${ver}/llvm-${ver}.src.tar.xz ${PDIR})
+            download_file(https://github.com/llvm/llvm-project/releases/download/llvmorg-${ver}/clang-${ver}.src.tar.xz ${PDIR})
+            download_file(https://github.com/llvm/llvm-project/releases/download/llvmorg-${ver}/clang-tools-extra-${ver}.src.tar.xz ${PDIR})
+            unpack_to(${PDIR}/llvm-${ver}.src.tar.xz ${SDIR}/llvm-${ver})
+            unpack_to(${PDIR}/clang-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang)
+            unpack_to(${PDIR}/clang-tools-extra-${ver}.src.tar.xz ${SDIR}/llvm-${ver}/tools/clang/tools/extra)
+        endif()
     endif()
 endforeach()
 
@@ -55,7 +64,7 @@ foreach(ver ${CLANG_VERSION})
         SOURCE_DIR ${SDIR}/llvm-${ver}
         BINARY_DIR ${BDIR}/llvm-${ver}
         #INSTALL_DIR ${IDIR}/llvm-${ver}
-        CMAKE_ARGS "${CMK_ARGS};-DCMAKE_INSTALL_PREFIX=${IDIR}"
+        CMAKE_ARGS "${CMK_ARGS};-DCMAKE_INSTALL_PREFIX=${IDIR};-Thost=x64"
         )
 endforeach()
 
